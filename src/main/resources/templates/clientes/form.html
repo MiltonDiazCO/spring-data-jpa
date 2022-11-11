@@ -41,18 +41,20 @@
 		<div class="row">
 			<div class="col-md-6">
 			
-				<div th:object="${cliente}" class="alert alert-danger">
+				<div th:object="${cliente}">
 				
-					<p>Listado de errores</p>
+					<div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
 				
-					<ul th:if="${#fields.hasErrors('*')}">
-						<li th:each="error:${#fields.errors('*')}" th:text="${error}"></li>
-					</ul>
+						<p>Listado de errores</p>
+				
+						<ul>
+							<li th:each="error:${#fields.errors('*')}" th:text="${error}"></li>
+						</ul>
+					</div>
 				</div>
 
 				<form th:action="@{/clientes/form}" th:object="${cliente}" method="post">
-					<input type="hidden" th:field="*{id}">
-					
+
 					<div class="form-group">
 						<label for="nombre">Nombres</label>
 						<input type="text" th:field="*{nombre}" class="form-control">
