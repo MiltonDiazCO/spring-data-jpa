@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
-import com.milton.springboot.app.models.dao.IClienteDao;
 import com.milton.springboot.app.models.entity.Cliente;
+import com.milton.springboot.app.models.service.IClienteService;
 
 @Controller
 @RequestMapping("/clientes")
@@ -26,12 +26,12 @@ public class ClienteController {
 	private final String usuariosTitulo = "Clientes";
 	
 	@Autowired
-	private IClienteDao clienteDao;
+	private IClienteService clienteService;
 	
 	@GetMapping({"", "/", "/listar"})
 	public String listar(Model model) {
 		model.addAttribute("titulo", usuariosTitulo);
-		model.addAttribute("clientes", clienteDao.findAll());
+		model.addAttribute("clientes", clienteService.findAll());
 		return "clientes/listar";
 	}
 	
@@ -52,7 +52,7 @@ public class ClienteController {
 			return "clientes/form";
 		}
 		
-		clienteDao.save(cliente);
+		clienteService.save(cliente);
 		status.setComplete();
 		return "redirect:/clientes/listar";
 	}
@@ -63,7 +63,7 @@ public class ClienteController {
 		Cliente cliente = null;
 		
 		if(id > 0) {
-			cliente = clienteDao.findOne(id);
+			cliente = clienteService.findOne(id);
 		} else {
 			return "redirect:/clientes/listar";
 		}
@@ -77,7 +77,7 @@ public class ClienteController {
 	public String eliminar(@PathVariable(value="id") Long id) {
 		
 		if(id > 0) {
-			clienteDao.delete(id);
+			clienteService.delete(id);
 		}
 		return "redirect:/clientes/listar";
 	}
