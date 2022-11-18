@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+	<nav th:fragment="paginator">
+		<ul class="pagination justify-content-center">
+			<li th:class="${pageRender.isFirst?'page-item disabled':'page-item'}">
+				<a th:href="@{${pageRender.url}(page=0)}" class="page-link">
+					<span class="fas fa-step-backward" title="Primera"></span>
+				</a>
+			</li>
+
+			<li th:class="${pageRender.hasPrevious?'page-item':'page-item disabled'}">
+				<a th:href="@{${pageRender.url}(page=${pageRender.numeropaginaActual-1})}"
+					class="page-link">
+					<span class="fas fa-backward" title="Anterior"></span>
+				</a>
+			</li>
+
+			<li th:each="item : ${pageRender.paginas}"
+				th:class="${item.actual? 'page-item active':'page-item'}">
+				<a th:href="@{${pageRender.url}(page=${item.numero-1})}"
+					th:text="${item.numero}" class="page-link">
+				</a>
+			</li>
+
+			<li th:class="${pageRender.hasNext?'page-item':'page-item disabled'}">
+				<a th:href="@{${pageRender.url}(page=${pageRender.numeropaginaActual+1})}"
+					class="page-link">
+					<span class="fas fa-forward" title="Siguiente"></span>
+				</a>
+			</li>
+
+			<li th:class="${pageRender.isLast?'page-item disabled':'page-item'}">
+				<a th:href="@{${pageRender.url}(page=${pageRender.NumeroTotalDePaginas-1})}"
+					class="page-link">
+					<span class="fas fa-step-forward" title="Ultima"></span>
+				</a>
+			</li>
+		</ul>
+	</nav>
+
+</body>
+</html>
