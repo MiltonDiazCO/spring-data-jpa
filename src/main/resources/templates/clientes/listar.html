@@ -34,12 +34,18 @@
 							<td th:text="${cliente.apellido}"></td>
 							<td th:text="${cliente.email}"></td>
 							<td th:text="${#dates.format(cliente.createAt, 'dd/MM/yyyy')}"></td>
-							<td><a th:href="@{/clientes/form/} + ${cliente.id}"
-								th:text="'Editar'" class="btn btn-primary"></a> <a
-								th:href="@{/clientes/eliminar/} + ${cliente.id}"
-								th:text="'Eliminar'" class="btn btn-primary"
-								onclick="return confirm('¿Esta seguro que quiere eliminar?')">
-							</a></td>
+							<td>
+								<a th:href="@{/clientes/ver/} + ${cliente.id}" class="btn btn-primary">
+									<span class="fas fa-eye"></span>
+								</a>
+								<a th:href="@{/clientes/form/} + ${cliente.id}" class="btn btn-primary">
+									<span class="fas fa-pencil-alt"></span>
+								</a>
+								<a th:href="@{/clientes/eliminar/} + ${cliente.id}" class="btn btn-primary"
+									onclick="return confirm('¿Esta seguro que quiere eliminar?')">
+									<span class="fas fa-trash"></span>
+								</a>
+							</td>
 						</tr>
 					</tbody>
 				</table>

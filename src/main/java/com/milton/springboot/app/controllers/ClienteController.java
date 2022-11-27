@@ -1,7 +1,11 @@
 package com.milton.springboot.app.controllers;
 
-import java.util.Iterator;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.validation.Valid;
 
@@ -19,11 +23,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.milton.springboot.app.models.entity.Cliente;
 import com.milton.springboot.app.models.service.IClienteService;
-import com.milton.springboot.app.util.paginator.PageItem;
+import com.milton.springboot.app.models.service.IUploadFileService;
 import com.milton.springboot.app.util.paginator.PageRender;
 
 @Controller
@@ -35,6 +40,9 @@ public class ClienteController {
 
 	@Autowired
 	private IClienteService clienteService;
+
+	@Autowired
+	private IUploadFileService uploadFileService;
 
 	@GetMapping({ "", "/", "/listar" })
 	public String listar(@RequestParam(name = "page", defaultValue = "0") int page, Model model) {
@@ -62,11 +70,27 @@ public class ClienteController {
 
 	@PostMapping({ "/form" })
 	public String guardar(@Valid Cliente cliente, BindingResult result, Model model, RedirectAttributes flash,
-			SessionStatus status) {
+			@RequestParam("fotoPost") MultipartFile foto, SessionStatus status) {
 
 		if (result.hasErrors()) {
 			model.addAttribute("titulo", "Agregar nuevo cliente");
 			return "clientes/form";
+		}
+
+		if (!foto.isEmpty()) {
+
+			if (cliente.getId() != null && cliente.getFoto() != null && cliente.getFoto().length() > 0) {
+				uploadFileService.delete(cliente.getFoto());
+			}
+
+			try {
+				String uniqueFileName = uploadFileService.copy(foto);
+				cliente.setFoto(uniqueFileName);
+			} catch (IOException e) {
+				flash.addFlashAttribute("error", "No se pudo cargar la imagen");
+				e.printStackTrace();
+			}
+
 		}
 
 		String flashMesssage;
@@ -82,6 +106,21 @@ public class ClienteController {
 		clienteService.save(cliente);
 		status.setComplete();
 		return "redirect:/clientes/listar";
+	}
+
+	@GetMapping({ "/ver/{id}" })
+	public String ver(@PathVariable(value = "id") Long id, Map<String, Object> model, RedirectAttributes flash) {
+
+		Cliente cliente = clienteService.findOne(id);
+
+		if (cliente == null) {
+			flash.addFlashAttribute("error", "Cliente desconocido");
+			return "redirect:/clientes/listar";
+		}
+
+		model.put("titulo", "Detalle cliente");
+		model.put("cliente", cliente);
+		return "clientes/ver";
 	}
 
 	@GetMapping({ "/form/{id}" })
@@ -110,6 +149,9 @@ public class ClienteController {
 	public String eliminar(@PathVariable(value = "id") Long id, RedirectAttributes flash) {
 
 		if (id > 0) {
+			Cliente cliente = clienteService.findOne(id);
+
+			uploadFileService.delete(cliente.getFoto());
 			clienteService.delete(id);
 		}
 
