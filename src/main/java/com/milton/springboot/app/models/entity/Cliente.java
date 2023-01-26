@@ -35,11 +35,11 @@ public class Cliente implements Serializable {
 	@NotEmpty
 	private String email;
 
-	@Column(name = "create_at")
+	@Column(name = "fecha_nacimiento")
 	@Temporal(TemporalType.DATE)
 	@NotNull
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date createAt;
+	private Date fechaNacimiento;
 
 	private String foto;
 
@@ -75,12 +75,12 @@ public class Cliente implements Serializable {
 		this.email = email;
 	}
 
-	public Date getCreateAt() {
-		return createAt;
+	public Date getFechaNacimiento() {
+		return fechaNacimiento;
 	}
 
-	public void setCreateAt(Date createAt) {
-		this.createAt = createAt;
+	public void setFechaNacimiento(Date fechaNacimiento) {
+		this.fechaNacimiento = fechaNacimiento;
 	}
 
 	public String getFoto() {

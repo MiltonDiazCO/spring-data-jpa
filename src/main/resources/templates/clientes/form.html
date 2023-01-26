@@ -58,11 +58,11 @@
 					</div>
 
 					<div class="form-group">
-						<label for="createAt">Fecha de nacimiento</label> <input
-							type="date" th:field="*{createAt}" class="form-control">
-						<div th:if="${#fields.hasErrors('createAt')}"
+						<label for="fechaNacimiento">Fecha de nacimiento</label> <input
+							type="date" th:field="*{fechaNacimiento}" class="form-control">
+						<div th:if="${#fields.hasErrors('fechaNacimiento')}"
 							class="alert alert-danger">
-							<p th:errors="*{createAt}" style="color: red;"></p>
+							<p th:errors="*{fechaNacimiento}" style="color: red;"></p>
 						</div>
 					</div>
 
