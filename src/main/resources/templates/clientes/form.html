@@ -28,9 +28,9 @@
 				</div>
 
 				<form th:action="@{/clientes/form}" th:object="${cliente}"
-					method="post" enctype="multipart/form-data">
+					method="post" enctype="multipart/form-data" class="form-row g-3">
 
-					<div class="form-group">
+					<div class="form-group col-md-3">
 						<label for="nombre">Nombres</label> <input type="text"
 							th:field="*{nombre}" class="form-control">
 						<div th:if="${#fields.hasErrors('nombre')}"
@@ -39,7 +39,7 @@
 						</div>
 					</div>
 
-					<div class="form-group">
+					<div class="form-group col-md-3">
 						<label for="apellido">Apellidos</label> <input type="text"
 							th:field="*{apellido}" class="form-control">
 						<div th:if="${#fields.hasErrors('apellido')}"
@@ -48,7 +48,7 @@
 						</div>
 					</div>
 
-					<div class="form-group">
+					<div class="form-group col-md-3">
 						<label for="email">Email</label> <input type="text"
 							th:field="*{email}" class="form-control">
 						<div th:if="${#fields.hasErrors('email')}"
@@ -57,7 +57,7 @@
 						</div>
 					</div>
 
-					<div class="form-group">
+					<div class="form-group col-md-3">
 						<label for="fechaNacimiento">Fecha de nacimiento</label> <input
 							type="date" th:field="*{fechaNacimiento}" class="form-control">
 						<div th:if="${#fields.hasErrors('fechaNacimiento')}"
@@ -66,16 +66,26 @@
 						</div>
 					</div>
 
-					<div th:if="${cliente.foto != null}">
-						<label class="alert alert-warning">
-							Ya existe una imagen para este cliente, seleccione una nueva 
-							imagen si desea reemplazarla
-						</label> <br>
+					<div th:if="${cliente.foto != null}" class="form-group">
+						<label for="createAt">Imagen de referencia</label>
+						<div class="col-md-3" style="padding: 0;">
+							<img alt="" th:src="@{'/uploads/' + ${cliente.foto}}"
+								class="img-thumbnail">
+						</div>
 					</div>
 
-					<div class="form-group">
-						<label>Imagen dereferencia</label>
-						
+					<div th:if="${cliente.foto != null}">
+						<label class="alert alert-warning">Seleccione una nueva
+							imagen si desea reemplazarla </label>
+					</div>
+
+					<div th:if="${cliente.foto == null && cliente.nombre != null}">
+						<label class="alert alert-warning" for="createAt">El
+							cliente no cuenta con una imagen de referencia, seleccione una
+							imagen si desea agregarla</label>
+					</div>
+
+					<div class="form-group col-md-12">
 						<input type="file" name="fotoPost" class="form-control-file">
 					</div>
 

@@ -35,21 +35,21 @@
 							<td th:text="${cliente.email}"></td>
 							<td th:text="${#dates.format(cliente.fechaNacimiento, 'dd/MM/yyyy')}"></td>
 							<td>
-								<a th:href="@{/clientes/ver/} + ${cliente.id}" class="btn btn-primary">
-									<span class="fas fa-eye"></span>
-								</a>
 								<a th:href="@{/clientes/form/} + ${cliente.id}" class="btn btn-primary">
 									<span class="fas fa-pencil-alt"></span>
 								</a>
+								<a th:href="@{/clientes/facturas/} + ${cliente.id}" class="btn btn-primary">
+									<span class="fas fa-file-invoice"></span>
+								</a>
 								<a th:href="@{/clientes/eliminar/} + ${cliente.id}" class="btn btn-primary"
-									onclick="return confirm('¿Esta seguro que quiere eliminar?')">
+									onclick="return confirm('¿Esta seguro que quiere eliminar este cliente?')">
 									<span class="fas fa-trash"></span>
 								</a>
 							</td>
 						</tr>
 					</tbody>
 				</table>
-				
+
 				<nav th:replace="layout/paginator-nav :: paginator"></nav>
 			</div>
 
