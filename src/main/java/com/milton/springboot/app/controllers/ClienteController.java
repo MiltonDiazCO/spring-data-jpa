@@ -146,8 +146,11 @@ public class ClienteController {
 
 		if (id > 0) {
 			Cliente cliente = clienteService.findOne(id);
+			
+			if(cliente.getFoto() != null) {
+				uploadFileService.delete(cliente.getFoto());
+			}
 
-			uploadFileService.delete(cliente.getFoto());
 			clienteService.delete(id);
 		}
 
