@@ -64,6 +64,28 @@ public class ClienteController {
 		return "clientes/form";
 	}
 
+	@GetMapping({ "/form/{id}" })
+	public String editar(@PathVariable(value = "id") Long id, Map<String, Object> model, RedirectAttributes flash) {
+
+		Cliente cliente = null;
+
+		if (id > 0) {
+			cliente = clienteService.findOne(id);
+
+			if (cliente == null) {
+				flash.addFlashAttribute("error", "Cliente desconocido");
+				return "redirect:/clientes/listar";
+			}
+		} else {
+			flash.addFlashAttribute("error", "Cliente desconocido");
+			return "redirect:/clientes/listar";
+		}
+
+		model.put("cliente", cliente);
+		model.put("titulo", "Editar cliente");
+		return "clientes/form";
+	}
+
 	@PostMapping({ "/form" })
 	public String guardar(@Valid Cliente cliente, BindingResult result, Model model, RedirectAttributes flash,
 			@RequestParam("fotoPost") MultipartFile foto, SessionStatus status) {
@@ -104,50 +126,13 @@ public class ClienteController {
 		return "redirect:/clientes/listar";
 	}
 
-	@GetMapping({ "/ver/{id}" })
-	public String ver(@PathVariable(value = "id") Long id, Map<String, Object> model, RedirectAttributes flash) {
-
-		Cliente cliente = clienteService.findOne(id);
-
-		if (cliente == null) {
-			flash.addFlashAttribute("error", "Cliente desconocido");
-			return "redirect:/clientes/listar";
-		}
-
-		model.put("titulo", "Detalle cliente");
-		model.put("cliente", cliente);
-		return "clientes/ver";
-	}
-
-	@GetMapping({ "/form/{id}" })
-	public String editar(@PathVariable(value = "id") Long id, Map<String, Object> model, RedirectAttributes flash) {
-
-		Cliente cliente = null;
-
-		if (id > 0) {
-			cliente = clienteService.findOne(id);
-
-			if (cliente == null) {
-				flash.addFlashAttribute("error", "Cliente desconocido");
-				return "redirect:/clientes/listar";
-			}
-		} else {
-			flash.addFlashAttribute("error", "Cliente desconocido");
-			return "redirect:/clientes/listar";
-		}
-
-		model.put("cliente", cliente);
-		model.put("titulo", "Editar cliente");
-		return "clientes/form";
-	}
-
 	@RequestMapping({ "/eliminar/{id}" })
 	public String eliminar(@PathVariable(value = "id") Long id, RedirectAttributes flash) {
 
 		if (id > 0) {
 			Cliente cliente = clienteService.findOne(id);
-			
-			if(cliente.getFoto() != null) {
+
+			if (cliente.getFoto() != null) {
 				uploadFileService.delete(cliente.getFoto());
 			}
 
