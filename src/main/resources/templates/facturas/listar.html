@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layouts :: head"></head>
+<body>
+
+	<header th:replace="layout/layouts :: header"></header>
+
+	<div class="container py-4">
+
+		<div class="card">
+
+			<div class="card-header">
+				<br> <a class="btn btn-success">Crear nueva factura</a> <br><br>
+			</div>
+
+			<div class="card-body">
+			
+				<h6 th:if="${!cliente.facturas.isEmpty}" th:text="${titulo}" class="text-secondary"></h6>
+				<h6 th:if="${cliente.facturas.isEmpty}" th:text="${titulo}" class="text-secondary"></h6>
+				
+				<hr>
+			
+				<table class="table table-bordered table-striped text-center">
+					<thead class="thead-dark">
+						<tr>
+							<th>Descripci&oacute;n</th>
+							<th>Observaci&oacute;n</th>
+							<th>Fecha de Creaci&oacute;n</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="factura:${cliente.facturas}">
+							<td th:text="${factura.descripcion}"></td>
+							<td th:text="${factura.observacion}"></td>
+							<td th:text="${factura.createAt}"></td>
+							<td>
+								<a class="btn btn-primary">
+									<span class="fas fa-edit"></span>
+								</a>
+								<a class="btn btn-primary">
+									<span class="fas fa-eye"></span>
+								</a>
+								<a class="btn btn-primary">
+									<span class="fas fa-trash"></span>
+								</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				
+				<a th:href="@{/clientes/}" class="btn btn-secondary">Volver a clientes</a>
+			</div>
+		</div>
+	</div>
+
+	<!--/scripts-->
+	<div th:replace="layout/layouts :: scripts"></div>
+</body>
+</html>

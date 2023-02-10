@@ -60,6 +60,7 @@ public class ClienteController {
 		Cliente cliente = new Cliente();
 
 		model.put("titulo", "Agregar nuevo cliente");
+		
 		model.put("cliente", cliente);
 		return "clientes/form";
 	}

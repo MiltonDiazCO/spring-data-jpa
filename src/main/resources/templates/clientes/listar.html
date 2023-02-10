@@ -20,8 +20,7 @@
 					<thead>
 						<tr>
 							<th>ID</th>
-							<th>Nombre</th>
-							<th>Apellido</th>
+							<th>Cliente</th>
 							<th>Email</th>
 							<th>Fecha de Nacimiento</th>
 							<th></th>
@@ -30,15 +29,14 @@
 					<tbody>
 						<tr th:each="cliente:${clientes}">
 							<td th:text="${cliente.id}"></td>
-							<td th:text="${cliente.nombre}"></td>
-							<td th:text="${cliente.apellido}"></td>
+							<td th:text="${cliente.nombre} + ' ' + ${cliente.apellido}"></td>
 							<td th:text="${cliente.email}"></td>
 							<td th:text="${#dates.format(cliente.fechaNacimiento, 'dd/MM/yyyy')}"></td>
 							<td>
 								<a th:href="@{/clientes/form/} + ${cliente.id}" class="btn btn-primary">
 									<span class="fas fa-pencil-alt"></span>
 								</a>
-								<a th:href="@{/clientes/facturas/} + ${cliente.id}" class="btn btn-primary">
+								<a th:href="@{/facturas/list/} + ${cliente.id}" class="btn btn-primary">
 									<span class="fas fa-file-invoice"></span>
 								</a>
 								<a th:href="@{/clientes/eliminar/} + ${cliente.id}" class="btn btn-primary"

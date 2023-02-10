@@ -72,6 +72,12 @@
 							<img alt="" th:src="@{'/uploads/' + ${cliente.foto}}"
 								class="img-thumbnail">
 						</div>
+						<br> <input type="file" name="fotoPost" class="form-control-file">
+					</div>
+					
+					<div th:if="${cliente.foto == null}" class="form-group col-md-12">
+						<label for="createAt">Imagen de referencia</label>
+						<input type="file" name="fotoPost" class="form-control-file">
 					</div>
 
 					<div th:if="${cliente.foto != null}">
@@ -86,10 +92,6 @@
 					</div>
 
 					<div class="form-group col-md-12">
-						<input type="file" name="fotoPost" class="form-control-file">
-					</div>
-
-					<div class="form-group">
 						<a th:href="@{/clientes}" class="btn btn-secondary">Volver</a> <input
 							type="submit" value="Guardar" class="btn btn-primary">
 					</div>
